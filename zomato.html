@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zomato Clone</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #1c1c1c;
+            background-color: #fff9f9;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        img,
+        video {
+            display: block;
+            max-width: 100%;
+        }
+
+        .container {
+            width: min(1160px, calc(100% - 40px));
+            margin: 0 auto;
+        }
+
+        /* Hero header */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            overflow: hidden;
+            color: white;
+            background-color: #111;
+        }
+
+        .hero video {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.72));
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .hero-box {
+            max-width: 760px;
+        }
+
+        .hero-logo {
+            width: 240px;
+            margin: 0 auto 18px;
+        }
+
+        .hero-box h1 {
+            margin: 0;
+            font-size: clamp(3rem, 7vw, 5.2rem);
+            line-height: 1.08;
+            font-weight: 800;
+        }
+
+        .hero-box p {
+            margin: 22px auto 0;
+            max-width: 680px;
+            font-size: clamp(1.2rem, 2.2vw, 2rem);
+            line-height: 1.4;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .store-buttons {
+            margin-top: 34px;
+            display: flex;
+            justify-content: center;
+            gap: 22px;
+            flex-wrap: wrap;
+        }
+
+        .store-buttons a img {
+            height: 78px;
+            border-radius: 14px;
+            box-shadow: 0 18px 28px rgba(0, 0, 0, 0.25);
+        }
+
+        .scroll-text {
+            margin-top: 44px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.95);
+            letter-spacing: 0.3px;
+        }
+
+        /* Main sections */
+        .section {
+            padding: 84px 0;
+        }
+
+        .section-title {
+            margin: 0 0 14px;
+            font-size: clamp(2rem, 4vw, 3rem);
+            text-align: center;
+            color: #22263a;
+        }
+
+        .section-text {
+            max-width: 760px;
+            margin: 0 auto 40px;
+            text-align: center;
+            color: #636b7f;
+            line-height: 1.7;
+            font-size: 1.05rem;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .card {
+            background-color: white;
+            border: 1px solid #f2dbe0;
+            border-radius: 24px;
+            padding: 28px;
+            box-shadow: 0 16px 35px rgba(30, 42, 74, 0.06);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .card:hover {
+            transform: scale(1.04);
+            box-shadow: 0 22px 42px rgba(30, 42, 74, 0.12);
+        }
+
+        .card img {
+            width: 72px;
+            height: 72px;
+            margin-bottom: 18px;
+        }
+
+        .card h3 {
+            margin: 0 0 10px;
+            color: #22263a;
+            font-size: 1.35rem;
+        }
+
+        .card p {
+            margin: 0;
+            color: #666f83;
+            line-height: 1.7;
+        }
+
+        .stats-wrap {
+            background: linear-gradient(135deg, #fff3f4, #ffffff);
+            border: 1px solid #f3d7dc;
+            border-radius: 30px;
+            padding: 34px;
+        }
+
+        .brand-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 28px;
+        }
+
+        .brand-card {
+            border-radius: 34px;
+            padding: 34px 24px 28px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .brand-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 24px 44px rgba(26, 36, 68, 0.12);
+        }
+
+        .brand-card img {
+            width: 240px;
+            max-width: 100%;
+            margin: 0 auto 26px;
+            border-radius: 28px;
+        }
+
+        .brand-card h3 {
+            margin: 0 0 14px;
+            font-size: 1.4rem;
+            color: #223154;
+        }
+
+        .brand-card p {
+            margin: 0 auto 30px;
+            max-width: 250px;
+            color: #586583;
+            line-height: 1.55;
+            font-size: 1rem;
+        }
+
+        .brand-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            color: #1f2d51;
+        }
+
+        .brand-link span {
+            color: #ef4f5f;
+            font-size: 1.2rem;
+        }
+
+        .brand-zomato {
+            background: linear-gradient(180deg, #fff6f7, #fff2f4);
+            border-color: #ffd8dd;
+        }
+
+        .brand-blinkit {
+            background: linear-gradient(180deg, #fff9e6, #fffdf4);
+            border-color: #f7e2a0;
+        }
+
+        .brand-district {
+            background: linear-gradient(180deg, #f6f2ff, #fcfbff);
+            border-color: #d9c2ff;
+        }
+
+        .brand-hyperpure {
+            background: linear-gradient(180deg, #fff5f5, #fff9f9);
+            border-color: #ffdcdc;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 18px 10px;
+        }
+
+        .stat h3 {
+            margin: 0;
+            color: #ef4f5f;
+            font-size: 2.4rem;
+        }
+
+        .stat p {
+            margin: 8px 0 0;
+            color: #5f6880;
+            line-height: 1.6;
+        }
+
+        .about-panel {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+            align-items: center;
+        }
+
+        .about-panel img {
+            width: 100%;
+            border-radius: 28px;
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .about-copy {
+            color: #485066;
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        .about-copy h3 {
+            margin-top: 0;
+            margin-bottom: 16px;
+            font-size: 2rem;
+            color: #22263a;
+        }
+
+        .site-footer {
+            border-top: 1px solid #f0d8dd;
+            padding: 30px 0 42px;
+            color: #677086;
+        }
+
+        .footer-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 900px) {
+            .cards,
+            .stats-grid,
+            .about-panel {
+                grid-template-columns: 1fr;
+            }
+
+            .brand-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                width: min(100% - 24px, 1160px);
+            }
+
+            .hero-logo {
+                width: 180px;
+            }
+
+            .store-buttons {
+                gap: 14px;
+            }
+
+            .store-buttons a img {
+                height: 62px;
+            }
+
+            .section {
+                padding: 68px 0;
+            }
+
+            .card {
+                padding: 22px;
+            }
+
+            .brand-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <video autoplay muted loop playsinline>
+            <source src="zom.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+            <div class="hero-box">
+                <img class="hero-logo" src="https://b.zmtcdn.com/web_assets/8313a97515fcb0447d2d77c276532a511583262271.png" alt="Zomato logo">
+                <h1>India's #1<br>food delivery app</h1>
+                <p>Experience fast &amp; easy online ordering on the Zomato app</p>
+
+                <div class="store-buttons">
+                    <a href="#" aria-label="Get it on Google Play">
+                        <img src="https://b.zmtcdn.com/data/o2_assets/aad864bd17860b27634fe621001c32db1739350431.png" alt="Google Play badge">
+                    </a>
+                    <a href="#" aria-label="Download on the App Store">
+                        <img src="https://b.zmtcdn.com/data/o2_assets/df6464de32f4a09262cee301f65aaa661739351256.png" alt="App Store badge">
+                    </a>
+                </div>
+
+                <div class="scroll-text">Scroll down</div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Explore more from the Zomato family</h2>
+                <p class="section-text">
+                    These cards are added to match your sample layout more closely, with soft gradients,
+                    branded app images, and a hover scale effect.
+                </p>
+
+                <div class="brand-grid">
+                    <article class="brand-card brand-zomato">
+                        <img src="https://b.zmtcdn.com/data/o2_assets/d1eee2be61cf47e2332cb7c49475c0981739777714.png" alt="Zomato card">
+                        <h3>zomato</h3>
+                        <p>Get the app now to start ordering your favorite dishes!</p>
+                        <a class="brand-link" href="#">Check it out <span>&#8250;</span></a>
+                    </article>
+
+                    <article class="brand-card brand-blinkit">
+                        <img src="https://b.zmtcdn.com/data/o2_assets/071cb96db84f20eea3a39804e113bdee1739777655.png" alt="Blinkit card">
+                        <h3>blinkit</h3>
+                        <p>Choose from 30,000+ products and get them delivered at your doorstep</p>
+                        <a class="brand-link" href="#">Check it out <span>&#8250;</span></a>
+                    </article>
+
+                    <article class="brand-card brand-district">
+                        <img src="https://b.zmtcdn.com/data/o2_assets/b750e7c0113f10cc6b3cec658c7229d71770799109.png" alt="District card">
+                        <h3>district</h3>
+                        <p>The best of events, movies, dining, and everything you love!</p>
+                        <a class="brand-link" href="#">Check it out <span>&#8250;</span></a>
+                    </article>
+
+                    <article class="brand-card brand-hyperpure">
+                        <img src="https://b.zmtcdn.com/data/o2_assets/9207cd0fc68c4ac55cfd3bfa00c02a351739777699.png" alt="Hyperpure card">
+                        <h3>hyperpure</h3>
+                        <p>Offering complete supply chain solution for your restaurant</p>
+                        <a class="brand-link" href="#">Check it out <span>&#8250;</span></a>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Order food with confidence</h2>
+                <p class="section-text">
+                    This Zomato-inspired clone combines a bold video header with simple sections
+                    that explain delivery, restaurant discovery, and customer convenience.
+                </p>
+
+                <div class="cards">
+                    <article class="card">
+                        <img src="https://img.icons8.com/fluency/96/delivery-scooter.png" alt="Delivery scooter">
+                        <h3>Fast Delivery</h3>
+                        <p>
+                            Place orders in seconds and get your favorite meals delivered with a smooth,
+                            app-first experience.
+                        </p>
+                    </article>
+
+                    <article class="card">
+                        <img src="https://img.icons8.com/fluency/96/restaurant.png" alt="Restaurant icon">
+                        <h3>Restaurant Choices</h3>
+                        <p>
+                            Discover nearby restaurants, compare menus, and pick the food that matches
+                            your mood.
+                        </p>
+                    </article>
+
+                    <article class="card">
+                        <img src="https://img.icons8.com/fluency/96/discount.png" alt="Discount icon">
+                        <h3>Special Offers</h3>
+                        <p>
+                            Enjoy value deals, savings, and app-exclusive offers while exploring new
+                            dishes and cuisines.
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="stats-wrap">
+                    <h2 class="section-title">Built around everyday cravings</h2>
+                    <p class="section-text">
+                        These sample numbers help complete the clone page and make the layout feel like a
+                        polished product landing page.
+                    </p>
+
+                    <div class="stats-grid">
+                        <div class="stat">
+                            <h3>10+</h3>
+                            <p>Years of delivery experience</p>
+                        </div>
+                        <div class="stat">
+                            <h3>500+</h3>
+                            <p>Cities connected through the platform</p>
+                        </div>
+                        <div class="stat">
+                            <h3>1M+</h3>
+                            <p>Food discoveries made by users</p>
+                        </div>
+                        <div class="stat">
+                            <h3>24/7</h3>
+                            <p>Easy ordering and support flow</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container about-panel">
+                <img src="https://b.zmtcdn.com/data/o2_assets/316495f4ba2a9c9d9aa97fed9fe61cf71743059024.png" alt="Burger food visual">
+
+                <div class="about-copy">
+                    <h3>Made for quick choices</h3>
+                    <p>
+                        A strong food delivery homepage needs clear messaging, attractive food visuals,
+                        and easy app download actions. This version keeps the layout simple while making
+                        the page look much more complete.
+                    </p>
+                    <p>
+                        The header now follows the sample more closely by using the background video,
+                        large centered text, and both download badges for Google Play and the App Store.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-row">
+            <div>
+                <strong>zomato clone</strong><br>
+                Educational HTML and CSS project.
+            </div>
+
+            <div class="footer-links">
+                <a href="#">Home</a>
+                <a href="#">Features</a>
+                <a href="#">Download</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
