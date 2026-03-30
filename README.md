@@ -2,10 +2,15 @@
 
 A Zomato-inspired static landing page built with HTML and CSS.
 
+## Preview
+
+![Zomato Clone Preview](zom.png)
+
 ## Files
 
 - `zomato.html` - main webpage
 - `zom.mp4` - background video used in the hero section
+- `zom.png` - screenshot preview for the project
 
 ## Features
 
